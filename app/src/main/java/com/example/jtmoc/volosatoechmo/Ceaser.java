@@ -1,7 +1,10 @@
 package com.example.jtmoc.volosatoechmo;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,10 +27,21 @@ public class Ceaser extends AppCompatActivity {
         String s3 = " ";
         char x;
         for (int i = 0; i < s1.length(); i++) {
-            x = (char) (s1.charAt(i) + z);
-            if (x > 'z') x -= 26;
+            if (' ' != s1.charAt(i)) {
+                x = (char) (s1.charAt(i) + z);
+                if (x > 'z') x -= 26;
+            } else
+                x = ' ';
             s3 += String.valueOf(x);
         }
         cMess.setText(s3);
+    }
+
+    public void CopyCae(View view) {
+        ClipboardManager clipboard = (ClipboardManager)
+                getSystemService(Context.CLIPBOARD_SERVICE);
+        TextView cMess = (TextView) findViewById(R.id.ceaMess);
+        ClipData clip = ClipData.newPlainText("Crypted message", cMess.getText().toString());
+        clipboard.setPrimaryClip(clip);
     }
 }
